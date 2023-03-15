@@ -44,6 +44,7 @@ dependencies {
     def nav_version = "2.5.3"
     def hilt_version = "2.45"
     def retrofit_version = "2.9.0"
+    def okhttp_version = "4.10.0"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -66,4 +67,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
 }
