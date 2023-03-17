@@ -1,8 +1,9 @@
 package com.smithnoff.mytaskyapp.di
 
+import com.smithnoff.mytaskyapp.BuildConfig
+import com.smithnoff.mytaskyapp.data.remote.AuthInterceptor
 import com.smithnoff.mytaskyapp.data.remote.TaskyApi
 import com.smithnoff.mytaskyapp.utils.Constants.BASE_URL
-import com.smithnoff.mytaskyapp.utils.Constants.BEARER
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,16 +19,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTaskyClient(): OkHttpClient =
-        OkHttpClient.Builder().addInterceptor { chain ->
-            val request = chain.request().newBuilder()
-                .addHeader("Authorization", BEARER).build()
-            chain.proceed(request)
-        }.build()
+    fun provideTaskyClient(authInterceptor: AuthInterceptor): OkHttpClient =
+        OkHttpClient.Builder().addInterceptor(authInterceptor).build()
 
     @Provides
     @Singleton
-    fun provideRetrofit(client:OkHttpClient): Retrofit =
+    fun provideRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
@@ -36,7 +33,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTaskyApi(retrofit:Retrofit): TaskyApi =
+    fun provideTaskyApi(retrofit: Retrofit): TaskyApi =
         retrofit.create(TaskyApi::class.java)
 
 }
