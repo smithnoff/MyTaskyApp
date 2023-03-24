@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.databinding.FragmentAgendaHomeBinding
-import com.smithnoff.mytaskyapp.databinding.FragmentRegisterBinding
 
 class AgendaHomeFragment : Fragment() {
 
@@ -21,5 +21,11 @@ class AgendaHomeFragment : Fragment() {
     ): View {
         _binding = FragmentAgendaHomeBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_agendaHomeFragment_to_taskDetailFragment)
+        }
     }
 }
