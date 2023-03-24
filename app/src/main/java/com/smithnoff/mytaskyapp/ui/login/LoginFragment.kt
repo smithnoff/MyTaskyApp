@@ -24,6 +24,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btLogin.setOnClickListener {
+         findNavController().navigate(R.id.action_loginFragment_to_agendaHomeFragment)
+        }
         binding.btRegister.setOnClickListener {
          findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
