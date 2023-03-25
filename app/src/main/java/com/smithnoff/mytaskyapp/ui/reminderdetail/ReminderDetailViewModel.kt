@@ -1,4 +1,4 @@
-package com.smithnoff.mytaskyapp.ui
+package com.smithnoff.mytaskyapp.ui.reminderdetail
 
 import androidx.lifecycle.ViewModel
 

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.databinding.FragmentEventDetailBinding
 
 class EventDetailFragment : Fragment() {
@@ -19,6 +21,12 @@ class EventDetailFragment : Fragment() {
     ): View {
         _binding = FragmentEventDetailBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_go_to_editInfoFragment)
+        }
     }
 
 }

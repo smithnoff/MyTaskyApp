@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.databinding.FragmentTaskDetailBinding
 
 class TaskDetailFragment : Fragment() {
@@ -20,4 +22,9 @@ class TaskDetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_go_to_editInfoFragment)
+        }
+    }
 }

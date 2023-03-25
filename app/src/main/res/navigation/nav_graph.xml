@@ -53,6 +53,17 @@
     <fragment
         tools:layout="@layout/fragment_reminder_detail"
         android:id="@+id/reminderDetailFragment"
-        android:name="com.smithnoff.mytaskyapp.ui.ReminderDetailFragment"
-        android:label="ReminderDetailFragment" />
+        android:name="com.smithnoff.mytaskyapp.ui.reminderdetail.ReminderDetailFragment"
+        android:label="ReminderDetailFragment" >
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_edit_info"
+        android:id="@+id/editInfoFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.editagenda.EditInfoFragment"
+        android:label="EditInfoFragment" />
+
+    <action
+        android:id="@+id/action_go_to_editInfoFragment"
+        app:destination="@id/editInfoFragment" />
+
 </navigation>

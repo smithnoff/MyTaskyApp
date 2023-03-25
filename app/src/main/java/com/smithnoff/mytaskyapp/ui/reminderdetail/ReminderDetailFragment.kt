@@ -1,10 +1,12 @@
-package com.smithnoff.mytaskyapp.ui
+package com.smithnoff.mytaskyapp.ui.reminderdetail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.databinding.FragmentReminderDetailBinding
 
 class ReminderDetailFragment : Fragment() {
@@ -18,5 +20,12 @@ class ReminderDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentReminderDetailBinding.inflate(inflater, container, false)
-        return binding.root    }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_go_to_editInfoFragment)
+        }
+    }
 }
