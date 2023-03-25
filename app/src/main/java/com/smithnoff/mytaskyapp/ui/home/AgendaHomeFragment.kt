@@ -25,7 +25,7 @@ class AgendaHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_agendaHomeFragment_to_eventDetailFragment)
+            findNavController().navigate(R.id.action_agendaHomeFragment_to_reminderDetailFragment)
         }
     }
 }
