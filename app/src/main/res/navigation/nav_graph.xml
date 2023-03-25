@@ -33,10 +33,18 @@
         <action
             android:id="@+id/action_agendaHomeFragment_to_taskDetailFragment"
             app:destination="@id/taskDetailFragment" />
+        <action
+            android:id="@+id/action_agendaHomeFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_task_detail"
         android:id="@+id/taskDetailFragment"
         android:name="com.smithnoff.mytaskyapp.ui.taskdetail.TaskDetailFragment"
         android:label="TaskDetailFragment" />
+    <fragment
+        tools:layout="@layout/fragment_event_detail"
+        android:id="@+id/eventDetailFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.eventdetail.EventDetailFragment"
+        android:label="EventDetailFragment" />
 </navigation>
