@@ -8,13 +8,12 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.databinding.FragmentLoginBinding
-import com.smithnoff.mytaskyapp.utils.NetworkResult
+import com.smithnoff.mytaskyapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,22 +38,19 @@ class LoginFragment : Fragment() {
 
     private fun initObservables() {
         viewModel.loggedUserInfo.observe(viewLifecycleOwner) {
+
             when (it) {
-                is NetworkResult.Error -> {
-                    Log.e("Login:", it.message ?: "Unknown error.")
-                    setLoadingBarVisibility(false)
+                is Resource.Error -> {
+                    Log.e("Login:", it.message!!)
                 }
-                is NetworkResult.Loading -> setLoadingBarVisibility(it.isLoading)
-                is NetworkResult.Success -> {
-                    setLoadingBarVisibility(false)
+                is Resource.Success -> {
                     findNavController().navigate(R.id.action_loginFragment_to_agendaHomeFragment)
                 }
             }
         }
-    }
-
-    private fun setLoadingBarVisibility(loading: Boolean) {
-        binding.loadingCircle.visibility = if (loading) VISIBLE else GONE
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.loadingCircle.isVisible = it
+        }
     }
 
     private fun initViews() {
