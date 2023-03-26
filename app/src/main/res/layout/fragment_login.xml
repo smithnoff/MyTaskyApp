@@ -41,6 +41,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -66,6 +67,7 @@
             app:passwordToggleTint="@color/md_theme_light_onSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -89,6 +91,15 @@
             android:text="@string/txt_login"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/loading_circle"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
     </LinearLayout>
 
     <TextView
