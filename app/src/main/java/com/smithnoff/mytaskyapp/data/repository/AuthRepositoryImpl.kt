@@ -1,5 +1,6 @@
 package com.smithnoff.mytaskyapp.data.repository
 
+import com.smithnoff.mytaskyapp.data.models.RegisterUserRequest
 import com.smithnoff.mytaskyapp.data.models.UserLoginRequest
 import com.smithnoff.mytaskyapp.data.models.UserLoginResponse
 import com.smithnoff.mytaskyapp.data.remote.TaskyApi
@@ -10,8 +11,8 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(private val api: TaskyApi) : AuthRepository {
 
-    override suspend fun registerUser() {
-
+    override suspend fun registerUser(userInfo: RegisterUserRequest): Resource<Unit>{
+        return  safeApiCall {  api.registerUser(userInfo) }
     }
 
     override suspend fun loginUser(userInfo: UserLoginRequest):Resource<UserLoginResponse> {
