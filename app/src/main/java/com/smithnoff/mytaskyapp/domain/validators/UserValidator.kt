@@ -1,6 +1,7 @@
 package com.smithnoff.mytaskyapp.domain.validators
 
 import com.smithnoff.mytaskyapp.data.models.RegisterUserRequest
+import com.smithnoff.mytaskyapp.data.models.UserLoginRequest
 import com.smithnoff.mytaskyapp.utils.ValidationResult
 import com.smithnoff.mytaskyapp.utils.validateEmail
 import com.smithnoff.mytaskyapp.utils.validateLength
@@ -32,6 +33,23 @@ class UserValidator @Inject constructor() {
             return if(isValid){
                 ValidationResult.Success
             }else{
+                ValidationResult.Failure(errorMesage)
+            }
+        }
+    }
+
+    fun loginUserTestValid(userInfo: UserLoginRequest): ValidationResult {
+        with(userInfo) {
+            val (isValid, errorMesage) = if (!validateEmail(userInfo.email)) {
+                false to
+                        "Email is invalid"
+            } else {
+                true to
+                        ""
+            }
+            return if (isValid) {
+                ValidationResult.Success
+            } else {
                 ValidationResult.Failure(errorMesage)
             }
         }

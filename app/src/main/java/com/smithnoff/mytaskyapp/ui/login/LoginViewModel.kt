@@ -20,19 +20,12 @@ class LoginViewModel @Inject constructor(private val userApi: AuthRepositoryImpl
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _errorText = MutableLiveData<String>()
-    val errorText: LiveData<String> = _errorText
-
     fun doLogin(email: String, password: String) {
          _isLoading.postValue(true)
         viewModelScope.launch {
            val response = userApi.loginUser(UserLoginRequest(email,password))
             _isLoading.postValue(false)
-            if (response.data != null){
                 _loggedUserInfo.postValue(response)
-            }else{
-                _errorText.postValue(response.message?:"Error Unknown.")
-            }
         }
     }
 }
