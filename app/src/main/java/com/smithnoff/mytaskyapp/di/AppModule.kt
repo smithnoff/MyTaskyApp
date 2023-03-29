@@ -1,13 +1,12 @@
 package com.smithnoff.mytaskyapp.di
 
-import com.smithnoff.mytaskyapp.BuildConfig
 import com.smithnoff.mytaskyapp.data.remote.AuthInterceptor
 import com.smithnoff.mytaskyapp.data.remote.TaskyApi
+import com.smithnoff.mytaskyapp.domain.validators.UserValidator
 import com.smithnoff.mytaskyapp.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -36,5 +35,9 @@ object AppModule {
     @Singleton
     fun provideTaskyApi(retrofit: Retrofit): TaskyApi =
         retrofit.create(TaskyApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserValidator(): UserValidator = UserValidator()
 
 }

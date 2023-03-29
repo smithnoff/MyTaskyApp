@@ -20,8 +20,10 @@ class RegisterViewModel @Inject constructor(private val authRepositoryImpl: Auth
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
     fun doRegisterUser(userInfo: RegisterUserRequest){
+        _isLoading.postValue(true)
         viewModelScope.launch {
            val response = authRepositoryImpl.registerUser(userInfo)
+            _isLoading.postValue(false)
             _registerUser.postValue(response)
         }
     }
