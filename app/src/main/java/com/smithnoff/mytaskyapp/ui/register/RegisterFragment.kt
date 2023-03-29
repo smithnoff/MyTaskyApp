@@ -51,11 +51,14 @@ class RegisterFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                is Resource.Success -> Toast.makeText(
-                    requireContext(),
-                    "Registrado",
-                    Toast.LENGTH_SHORT
-                ).show()
+                is Resource.Success -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Registrado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().navigateUp()
+                }
             }
         }
         viewModel.isLoading.observe(viewLifecycleOwner){
