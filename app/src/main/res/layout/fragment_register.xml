@@ -41,6 +41,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -64,6 +65,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -77,6 +79,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edittext_default_height"
             android:layout_marginStart="16dp"
@@ -89,6 +92,7 @@
             app:passwordToggleTint="@color/md_theme_light_onSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
