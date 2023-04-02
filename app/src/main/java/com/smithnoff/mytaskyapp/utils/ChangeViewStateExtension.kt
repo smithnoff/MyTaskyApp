@@ -30,7 +30,3 @@ fun EditText.changeBackgroundError(hasError:Boolean, inputLayout:TextInputLayout
         )
     }
 }
-
-fun TextView.abrevName(){
-    this.text
-}
