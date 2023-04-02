@@ -1,13 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.AgendaHomeFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?colorOnSurface"
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/month_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/inter"
+        android:textStyle="bold"
+        tools:text="March"
+        android:textColor="?android:colorBackground"
+        android:textSize="20sp"
+        app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/user_dropdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_circle_gray_background"
+        android:fontFamily="@font/inter_extrabold"
+        android:padding="9dp"
+        tools:text="AB"
+        android:textColor="?android:colorPrimaryDark"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/month_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/bottom_dialog_shape"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month_selector">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_calendar_day"
+            tools:itemCount="7"
+            android:layout_gravity="center_horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/rv_calendar_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
+        <TextView
+            android:id="@+id/selected_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Today"
+            android:textSize="20sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="23dp"
+            android:fontFamily="@font/inter_extrabold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/item_calendar_task_card"
+            tools:itemCount="7"
+            android:id="@+id/rv_calendar_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
+
+    </LinearLayout>
+    <ImageButton
+        android:layout_gravity="center_vertical"
+        android:id="@+id/bt_add"
+        android:src="@drawable/baseline_add_24"
+        android:background="@drawable/shape_button_back_background"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/txt_create_calendar_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
