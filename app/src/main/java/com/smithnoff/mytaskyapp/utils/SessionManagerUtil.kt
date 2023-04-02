@@ -22,9 +22,9 @@ class SessionManagerUtil @Inject constructor(private val sharedPreferences: Shar
     }
 
     fun getSessionInfo() = UserLoginResponse(
-        sharedPreferences.getString(USER_FULLNAME, "")!!,
-        sharedPreferences.getString(USER_ID, "")!!,
-        sharedPreferences.getString(USER_TOKEN, "")!!
+        fullName = sharedPreferences.getString(USER_FULLNAME, "")!!,
+        userId = sharedPreferences.getString(USER_ID, "")!!,
+        token = sharedPreferences.getString(USER_TOKEN, "")!!
     )
 
     fun logoutUser() {

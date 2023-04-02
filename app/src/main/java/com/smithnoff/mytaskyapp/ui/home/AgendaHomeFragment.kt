@@ -158,9 +158,10 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
 
 
 fun String.abbrevName(): String {
+
     return if (this.trim().contains(' ')) {
-        "${this.split(' ')[0].first()}${this.split(' ')[1].first()}"
+        "${this.split(' ')[0].first()}${this.split(' ').last().first()}"
     } else {
-        this.take(2)
+        this.take(2).uppercase()
     }
 }
