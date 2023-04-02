@@ -16,6 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import com.smithnoff.mytaskyapp.utils.SessionManagerUtil
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AgendaHomeFragment : Fragment() {
@@ -34,6 +36,8 @@ class AgendaHomeFragment : Fragment() {
     private val format = SimpleDateFormat("dd MMMM yyyy", Locale.US)
     private val months: Array<String> = DateFormatSymbols(Locale.US).months
     private val weekDays: Array<String> = DateFormatSymbols(Locale.US).weekdays
+    @Inject
+    lateinit var sessionManager: SessionManagerUtil
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +48,7 @@ class AgendaHomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setUserMenuInfo()
         setCurrentDate()
         initMonthSelector()
     }
@@ -126,5 +131,17 @@ class AgendaHomeFragment : Fragment() {
             else
                 format.format(selectedDate.time)
         binding.monthSelector.text = months[selectedMonth]
+    }
+
+    fun setUserMenuInfo() {
+        binding.userDropdown.text = sessionManager.getSessionInfo().fullName.abbrevName()
+    }
+}
+
+fun String.abbrevName():String{
+    return if(this.trim().contains(' ')){
+        "${this.split(' ')[0].first()}${this.split(' ')[1].first()}"
+    }else{
+        this.take(2)
     }
 }
