@@ -27,8 +27,9 @@ class SessionManagerUtil @Inject constructor(private val sharedPreferences: Shar
         sharedPreferences.getString(USER_TOKEN, "")!!
     )
 
-
     fun logoutUser() {
         sharedPreferences.edit().clear().apply()
     }
+
+    fun getUserToken() = sharedPreferences.getString(USER_TOKEN, "")
 }

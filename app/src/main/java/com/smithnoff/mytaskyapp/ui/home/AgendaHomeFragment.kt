@@ -2,11 +2,11 @@ package com.smithnoff.mytaskyapp.ui.home
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.smithnoff.mytaskyapp.R
@@ -20,7 +20,7 @@ import com.smithnoff.mytaskyapp.utils.SessionManagerUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AgendaHomeFragment : Fragment() {
+class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
 
     private val currentDate = Calendar.getInstance(Locale.ENGLISH)
     private val selectedDate = Calendar.getInstance(Locale.ENGLISH)
@@ -36,6 +36,7 @@ class AgendaHomeFragment : Fragment() {
     private val format = SimpleDateFormat("dd MMMM yyyy", Locale.US)
     private val months: Array<String> = DateFormatSymbols(Locale.US).months
     private val weekDays: Array<String> = DateFormatSymbols(Locale.US).weekdays
+
     @Inject
     lateinit var sessionManager: SessionManagerUtil
 
@@ -106,7 +107,7 @@ class AgendaHomeFragment : Fragment() {
                 if (currentDate.time != selectedDate.time) {
                     updateDaysAdapter(monthOfYear)
                 }
-                binding.rvCalendarDays.smoothScrollToPosition(dayOfMonth-1)
+                binding.rvCalendarDays.smoothScrollToPosition(dayOfMonth - 1)
                 setFullDateText()
             },
             year,
@@ -124,7 +125,7 @@ class AgendaHomeFragment : Fragment() {
         daysAdapter.setDaysOfMonth(daysOfMonth, selectedDay)
     }
 
-    private fun setFullDateText(){
+    private fun setFullDateText() {
         binding.selectedDate.text =
             if (selectedDate.time == currentDate.time)
                 getString(R.string.txt_today)
@@ -133,15 +134,33 @@ class AgendaHomeFragment : Fragment() {
         binding.monthSelector.text = months[selectedMonth]
     }
 
-    fun setUserMenuInfo() {
+    private fun setUserMenuInfo() {
         binding.userDropdown.text = sessionManager.getSessionInfo().fullName.abbrevName()
+        binding.userDropdown.setOnClickListener {
+            PopupMenu(requireContext(), it).apply {
+                setOnMenuItemClickListener(this@AgendaHomeFragment)
+                inflate(R.menu.menu_logout)
+                show()
+            }
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.logout_user -> {
+                sessionManager.logoutUser()
+                findNavController().navigate(R.id.exit_to_login)
+            }
+        }
+        return true
     }
 }
 
-fun String.abbrevName():String{
-    return if(this.trim().contains(' ')){
+
+fun String.abbrevName(): String {
+    return if (this.trim().contains(' ')) {
         "${this.split(' ')[0].first()}${this.split(' ')[1].first()}"
-    }else{
+    } else {
         this.take(2)
     }
 }

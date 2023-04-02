@@ -41,8 +41,16 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
-        initObservables()
+        checkIfUserIsLogged()
+    }
+
+    private fun checkIfUserIsLogged() {
+        if (sessionManager.getUserToken()?.isNotBlank() == true){
+            findNavController().navigate(R.id.action_loginFragment_to_agendaHomeFragment)
+        }else{
+            initViews()
+            initObservables()
+        }
     }
 
     private fun initObservables() {
