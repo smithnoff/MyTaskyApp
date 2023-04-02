@@ -1,5 +1,6 @@
 package com.smithnoff.mytaskyapp.ui.home.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -7,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.databinding.ItemCalendarDayBinding
 
-class DaysWeekAdapter(val setDateListener:(Int,Int,Int)->Unit) : RecyclerView.Adapter<DaysWeekAdapter.DaysWeekVH>() {
+class DaysWeekAdapter(val setDateListener:(Int)->Unit) : RecyclerView.Adapter<DaysWeekAdapter.DaysWeekVH>() {
 
     private var monthDays = mutableListOf<Pair<String,Int>>()
     private var selectedDay = -1
 
-    fun setDaysOfMonth(days:List<Pair<String,Int>>,currentDay:Int){
+    @SuppressLint("NotifyDataSetChanged")
+    fun setDaysOfMonth(days:List<Pair<String,Int>>, currentDay:Int){
         monthDays = days.toMutableList()
         selectedDay = currentDay
         notifyDataSetChanged()
@@ -44,7 +46,7 @@ class DaysWeekAdapter(val setDateListener:(Int,Int,Int)->Unit) : RecyclerView.Ad
                 itemViewCal.root.background = null
             }
             itemViewCal.root.setOnClickListener {
-                setDateListener.invoke(pair.second,-1,-1)
+                setDateListener.invoke(pair.second)
                 selectedDay = pair.second
                 itemViewCal.root.background = ContextCompat.getDrawable(
                     itemViewCal.root.context,
