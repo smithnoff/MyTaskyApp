@@ -41,7 +41,7 @@ suspend fun <T> safeApiCall(apiToBeCalled: suspend () -> Response<T>): Resource<
         } catch (e: IOException) {
             Resource.Error("Please check your network connection")
         } catch (e: Exception) {
-            Resource.Error(errorMessage = "Something went wrong")
+            Resource.Error(errorMessage = "Something went wrong ${e.message}")
         }
     }
 }

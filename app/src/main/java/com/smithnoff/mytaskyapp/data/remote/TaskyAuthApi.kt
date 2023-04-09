@@ -7,7 +7,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface TaskyApi {
+interface TaskyAuthApi {
 
     @POST("/register")
     suspend fun registerUser(@Body userInfo: RegisterUserRequest): Response<Unit>
