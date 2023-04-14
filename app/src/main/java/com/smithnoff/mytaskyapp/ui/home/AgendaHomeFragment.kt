@@ -57,6 +57,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         setCurrentDate()
         initMonthSelector()
         initObservables()
+        binding.btAdd.setOnClickListener { addAgendaItem() }
     }
 
     private fun initObservables() {
@@ -177,12 +178,31 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
     }
+    private fun addAgendaItem() {
+        binding.btAdd.setOnClickListener {
+            PopupMenu(requireContext(), it).apply {
+                setOnMenuItemClickListener(this@AgendaHomeFragment)
+                inflate(R.menu.menu_add_item)
+                show()
+            }
+        }
+    }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.logout_user -> {
                 sessionManager.logoutUser()
                 findNavController().navigate(R.id.exit_to_login)
+            }
+            R.id.add_event -> {
+                findNavController().navigate(R.id.action_agendaHomeFragment_to_eventDetailFragment)
+            }
+            R.id.add_task -> {
+                findNavController().navigate(R.id.action_agendaHomeFragment_to_taskDetailFragment)
+
+            }
+            R.id.add_reminder -> {
+                findNavController().navigate(R.id.action_agendaHomeFragment_to_reminderDetailFragment)
             }
         }
         return true

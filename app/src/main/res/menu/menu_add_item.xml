@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_event"
+        android:title="@string/txt_event" />
+    <item
+        android:id="@+id/add_task"
+        android:title="@string/txt_task" />
+    <item
+        android:id="@+id/add_reminder"
+        android:title="@string/txt_reminder" />
+
+</menu>
