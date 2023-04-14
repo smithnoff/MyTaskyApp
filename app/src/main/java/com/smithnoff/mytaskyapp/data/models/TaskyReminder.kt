@@ -3,9 +3,9 @@ package com.smithnoff.mytaskyapp.data.models
 import com.google.gson.annotations.SerializedName
 
 data class TaskyReminder(
-    @SerializedName("id") val id: String,
-    @SerializedName("title") val title: String,
-    @SerializedName("description") val description: String?,
+    override val id: String,
+    override val title: String,
+    override val description: String?,
+    override val remindAt: Long,
     @SerializedName("time") val time: Long,
-    @SerializedName("remindAt") val remindAt: Long,
-)
+):TaskyAgendaItem()

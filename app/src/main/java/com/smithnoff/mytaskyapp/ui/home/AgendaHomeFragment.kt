@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.smithnoff.mytaskyapp.R
+import com.smithnoff.mytaskyapp.data.models.*
 import com.smithnoff.mytaskyapp.databinding.FragmentAgendaHomeBinding
 import com.smithnoff.mytaskyapp.ui.home.adapter.AgendaItemsAdapter
 import com.smithnoff.mytaskyapp.ui.home.adapter.DaysWeekAdapter
@@ -65,7 +66,11 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     println(it.message)
                 }
                 is Resource.Success -> {
-                    agendaItemsAdapter.setItems(it.data?.tasks!!)
+                    val agendaItems = mutableListOf<TaskyAgendaItem>()
+                    agendaItems.addAll(it.data?.tasks!!)
+                    agendaItems.addAll(it.data.events)
+                    agendaItems.addAll(it.data.reminders)
+                    agendaItemsAdapter.setItems(agendaItems)
                     println(it.data.toString())
                 }
             }
@@ -98,6 +103,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         setFullDateText()
         updateDaysAdapter(currentMonth)
         viewModel.getAgendaItems(timeZone = TimeZone.getDefault().id, selectedDate.timeInMillis)
+        binding.rvCalendarDays.smoothScrollToPosition(day - 1)
     }
 
     private fun getDayName(day: Int, month: Int, year: Int): String {
@@ -131,7 +137,8 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 if (currentDate.time != selectedDate.time) {
                     updateDaysAdapter(monthOfYear)
                 }
-                binding.rvCalendarDays.smoothScrollToPosition(dayOfMonth - 1)
+                binding.rvCalendarDays.smoothScrollToPosition(if (dayOfMonth <= 7 ) 0 else dayOfMonth)
+                selectMonthDay(selectedDay)
                 setFullDateText()
             },
             year,
@@ -156,6 +163,8 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             else
                 format.format(selectedDate.time)
         binding.monthSelector.text = months[selectedMonth]
+        binding.rvCalendarDays.smoothScrollToPosition(selectedDay )
+
     }
 
     private fun setUserMenuInfo() {
