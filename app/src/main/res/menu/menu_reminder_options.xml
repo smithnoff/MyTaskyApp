@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/option_ten_min"
-        android:title="10 minutes before" />
+        android:title="@string/txt_10_minutes_before" />
     <item
         android:id="@+id/option_half_hour"
-        android:title="30 minutes before" />
+        android:title="@string/txt_30_minutes_before" />
     <item
         android:id="@+id/option_one_hour"
-        android:title="1 hour before" />
+        android:title="@string/txt_1_hour_before" />
     <item
         android:id="@+id/option_six_hour"
-        android:title="6 hours before" />
+        android:title="@string/txt_6_hours_before" />
     <item
         android:id="@+id/option_24_hour"
-        android:title="1 day before" />
+        android:title="@string/txt_1_day_before" />
 </menu>

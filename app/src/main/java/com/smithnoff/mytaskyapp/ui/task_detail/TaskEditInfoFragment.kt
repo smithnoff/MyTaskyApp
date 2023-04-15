@@ -33,7 +33,7 @@ class TaskEditInfoFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-         val fieldToEdit =arguments?.getString(EditedField::class.java.name)
+         val fieldToEdit = arguments?.getString(EditedField::class.java.name)
        binding.btClose.setOnClickListener { findNavController().navigateUp() }
 
         when(fieldToEdit){
@@ -52,6 +52,7 @@ class TaskEditInfoFragment : Fragment() {
                 else
                     viewModel.setTaskDescription(fieldInfo.text.toString().replaceFirstChar { it.uppercaseChar() })
 
+                fieldInfo.setText( "")
                 findNavController().navigateUp()
             }
             btClose.setOnClickListener { findNavController().navigateUp() }
@@ -60,12 +61,12 @@ class TaskEditInfoFragment : Fragment() {
 
     private fun configureDescriptionEditText() {
         with(binding){
-            fieldInfo.setText( viewModel.getTitleDescription())
+            editScreenTitle.text = "Edit Description"
+            fieldInfo.setText(viewModel.getTitleDescription())
             fieldInfo.textSize = 16F
             fieldInfo.isSingleLine = false
-            fieldInfo.setText(viewModel.getTitle())
             btSave.setOnClickListener {
-                viewModel.setTaskTitle(fieldInfo.text.toString())
+                viewModel.setTaskDescription(fieldInfo.text.toString())
                 findNavController().navigateUp()
             }
         }
@@ -74,7 +75,7 @@ class TaskEditInfoFragment : Fragment() {
 
     private fun configureTitleEditText() {
         with(binding){
-            fieldInfo.setText( viewModel.getTitle())
+            editScreenTitle.text = "Edit Title"
             fieldInfo.textSize = 26F
             fieldInfo.isSingleLine = true
             fieldInfo.setText(viewModel.getTitle())

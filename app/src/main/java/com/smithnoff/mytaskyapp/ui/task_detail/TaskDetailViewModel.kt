@@ -14,7 +14,6 @@ class TaskDetailViewModel @Inject constructor(private val tasksRepository: Tasks
     ViewModel() {
     private var _taskTitle = MutableLiveData<String>()
     val taskTitle : LiveData<String> = _taskTitle
-
     private var _taskDescription = MutableLiveData<String>()
     val taskDescription : LiveData<String> = _taskDescription
     fun createNewTask() {
