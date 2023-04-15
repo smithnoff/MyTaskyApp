@@ -2,6 +2,7 @@ package com.smithnoff.mytaskyapp.utils
 
 import android.graphics.drawable.Drawable
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.textfield.TextInputLayout
 import com.smithnoff.mytaskyapp.R

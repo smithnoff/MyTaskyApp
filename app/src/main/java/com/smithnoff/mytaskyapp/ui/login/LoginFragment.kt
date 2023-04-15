@@ -15,10 +15,7 @@ import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.data.models.UserLoginRequest
 import com.smithnoff.mytaskyapp.databinding.FragmentLoginBinding
 import com.smithnoff.mytaskyapp.domain.validators.UserValidator
-import com.smithnoff.mytaskyapp.utils.Resource
-import com.smithnoff.mytaskyapp.utils.ValidationResult
-import com.smithnoff.mytaskyapp.utils.changeDrawableRight
-import com.smithnoff.mytaskyapp.utils.validateEmail
+import com.smithnoff.mytaskyapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,6 +28,8 @@ class LoginFragment : Fragment() {
 
     @Inject
     lateinit var validator: UserValidator
+    @Inject
+    lateinit var sessionManager: SessionManagerUtil
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +41,16 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
-        initObservables()
+        checkIfUserIsLogged()
+    }
+
+    private fun checkIfUserIsLogged() {
+        if (sessionManager.getUserToken()?.isNotBlank() == true){
+            findNavController().navigate(R.id.action_loginFragment_to_agendaHomeFragment)
+        }else{
+            initViews()
+            initObservables()
+        }
     }
 
     private fun initObservables() {
@@ -54,6 +61,7 @@ class LoginFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
+                    sessionManager.startUserSession(it.data!!)
                     findNavController().navigate(R.id.action_loginFragment_to_agendaHomeFragment)
                 }
             }

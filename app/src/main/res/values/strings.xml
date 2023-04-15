@@ -10,4 +10,5 @@
     <string name="txt_today">TODAY</string>
     <string name="txt_select_month">Select a month:</string>
     <string name="txt_create_calendar_item">create calendar item</string>
+    <string name="txt_logout">Logout</string>
 </resources>
