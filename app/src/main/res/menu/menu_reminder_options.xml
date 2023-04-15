@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/option_ten_min"
+        android:title="10 minutes before" />
+    <item
+        android:id="@+id/option_half_hour"
+        android:title="30 minutes before" />
+    <item
+        android:id="@+id/option_one_hour"
+        android:title="1 hour before" />
+    <item
+        android:id="@+id/option_six_hour"
+        android:title="6 hours before" />
+    <item
+        android:id="@+id/option_24_hour"
+        android:title="1 day before" />
+</menu>

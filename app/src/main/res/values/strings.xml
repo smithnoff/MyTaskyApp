@@ -14,4 +14,7 @@
     <string name="txt_event">Event</string>
     <string name="txt_task">Task</string>
     <string name="txt_reminder">Reminder</string>
+    <string name="txt_edit_task">Edit Task</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_at">At</string>
 </resources>

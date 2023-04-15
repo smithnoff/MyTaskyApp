@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AgendaHomeViewModel @Inject constructor(private val agendaApi: AgendaRepositoryImpl) :
+class AgendaHomeViewModel @Inject constructor(private val agendaRepository: AgendaRepositoryImpl) :
     ViewModel() {
     private val _agendaItemList = MutableLiveData<Resource<AgendaResponse>>()
     val agendaItemList: LiveData<Resource<AgendaResponse>> = _agendaItemList
     fun getAgendaItems(timeZone: String, time: Long) {
 
         viewModelScope.launch {
-            val response = agendaApi.getAgendaItemsByDay(timeZone, time)
+            val response = agendaRepository.getAgendaItemsByDay(timeZone, time)
             _agendaItemList.postValue(response)
         }
     }

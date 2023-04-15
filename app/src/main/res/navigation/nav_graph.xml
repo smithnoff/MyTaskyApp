@@ -55,11 +55,20 @@
         tools:layout="@layout/fragment_task_detail"
         android:id="@+id/taskDetailFragment"
         android:name="com.smithnoff.mytaskyapp.ui.task_detail.TaskDetailFragment"
-        android:label="TaskDetailFragment" />
+        android:label="TaskDetailFragment" >
+        <action
+            android:id="@+id/action_taskDetailFragment_to_taskEditInfoFragment"
+            app:destination="@id/taskEditInfoFragment" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_reminder_detail"
         android:id="@+id/reminderDetailFragment"
         android:name="com.smithnoff.mytaskyapp.ui.reminder_detail.ReminderDetailFragment"
         android:label="ReminderDetailFragment" />
+    <fragment
+        tools:layout="@layout/fragment_edit_info"
+        android:id="@+id/taskEditInfoFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.task_detail.TaskEditInfoFragment"
+        android:label="TaskEditInfoFragment" />
 
 </navigation>
