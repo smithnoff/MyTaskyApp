@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.smithnoff.mytaskyapp.R
 import com.smithnoff.mytaskyapp.data.models.TaskyReminder
-import com.smithnoff.mytaskyapp.data.models.TaskyTask
 import com.smithnoff.mytaskyapp.databinding.FragmentReminderDetailBinding
 import com.smithnoff.mytaskyapp.domain.validators.ReminderValidator
 import com.smithnoff.mytaskyapp.ui.task_detail.EditedField

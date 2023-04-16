@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
+        app:tint="?android:colorBackground"
         android:src="@drawable/baseline_close_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -73,11 +74,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/txt_reminder"
-            android:drawableTint="@color/md_theme_light_inverseOnSurface"
-            app:drawableStartCompat="@drawable/baseline_square_24" />
+            app:drawableStartCompat="@drawable/baseline_square_24"
+            app:drawableTint="@color/md_theme_light_inverseOnSurface" />
 
 
-        <RadioButton
+        <CheckBox
+            style="@android:style/Widget.CompoundButton.RadioButton"
+            android:clickable="false"
             android:id="@+id/card_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,8 +88,7 @@
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/inter_extrabold"
             android:textSize="26sp"
-            android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
-            android:drawableTint="@color/md_theme_light_shadow"
+            android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24_black"
             app:layout_constraintEnd_toStartOf="@+id/card_options"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,9 +103,8 @@
             android:fontFamily="@font/inter"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            app:drawableTint="@color/md_theme_light_shadow"
             tools:text="Weekly plan \nRole distribution"
-            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24" />
+            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24_black" />
 
         <include
             android:id="@+id/full_date_section"
@@ -120,7 +121,6 @@
             android:layout_marginBottom="20dp"
             android:textSize="16sp"
             android:fontFamily="@font/inter"
-            android:text="remindme"
             android:drawablePadding="13dp"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/appointment"

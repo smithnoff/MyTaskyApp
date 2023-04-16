@@ -19,7 +19,8 @@
         android:textSize="20sp"
         app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:drawableTint="?android:colorBackground" />
 
     <TextView
         android:id="@+id/user_dropdown"
