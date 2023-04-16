@@ -2,6 +2,7 @@ package com.smithnoff.mytaskyapp.ui.home.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.smithnoff.mytaskyapp.data.models.TaskyAgendaItem
@@ -16,7 +17,7 @@ import com.smithnoff.mytaskyapp.ui.home.adapter.viewholder.ReminderViewHolder
 import com.smithnoff.mytaskyapp.ui.home.adapter.viewholder.TaskViewHolder
 
 
-class AgendaItemsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AgendaItemsAdapter(private val menuListener: (View) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var taskList = mutableListOf<TaskyAgendaItem>()
 
@@ -64,9 +65,9 @@ class AgendaItemsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(taskList[position]){
-            is TaskyTask -> (holder as TaskViewHolder).bind((taskList[position] as TaskyTask))
+            is TaskyTask -> (holder as TaskViewHolder).bind((taskList[position] as TaskyTask),menuListener)
             is TaskyEvent -> (holder as EventViewHolder).bind((taskList[position] as TaskyEvent))
-            is TaskyReminder -> (holder as ReminderViewHolder).bind((taskList[position] as TaskyReminder))
+            is TaskyReminder -> (holder as ReminderViewHolder).bind((taskList[position] as TaskyReminder),menuListener)
         }
     }
 

@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <corners android:radius="10dp"/>
-    <solid android:color="@color/md_theme_light_inverseOnSurface"/>
+    <solid android:color="?android:colorBackground"/>
 </shape>

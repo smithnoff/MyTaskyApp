@@ -34,7 +34,7 @@
         android:paddingHorizontal="11dp"
         android:textSize="16sp"
         tools:text="AB"
-        android:textColor="?android:colorPrimaryDark"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="@+id/month_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
