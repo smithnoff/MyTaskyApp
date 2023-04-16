@@ -57,7 +57,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         setCurrentDate()
         initMonthSelector()
         initObservables()
-        binding.btAdd.setOnClickListener { addAgendaItem() }
+        addAgendaItem()
     }
 
     private fun initObservables() {

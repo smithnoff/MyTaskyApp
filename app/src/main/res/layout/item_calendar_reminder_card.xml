@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/md_theme_light_inverseOnSurface">
 
-        <RadioButton
+        <CheckBox
+            style="@android:style/Widget.CompoundButton.RadioButton"
+            android:clickable="false"
             android:id="@+id/card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,6 +51,7 @@
             app:layout_constraintTop_toBottomOf="@id/card_title"
             tools:text="Just work" />
         <TextView
+            android:id="@+id/card_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Mar 5, 10:00"
