@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?colorOnSurface"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bt_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/baseline_close_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_screen_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="Edit Reminder"
+        android:textAlignment="center"
+        android:textColor="?android:colorBackground"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/user_dropdown"
+        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintStart_toEndOf="@+id/bt_close"
+        app:layout_constraintTop_toTopOf="@+id/bt_close" />
+
+    <TextView
+        android:id="@+id/user_dropdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Save"
+        android:textColor="?android:colorBackground"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bt_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/bottom_dialog_shape"
+        android:orientation="vertical"
+        android:showDividers="middle|end"
+        android:divider="@drawable/layout_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_close">
+
+        <RadioButton
+            android:id="@+id/card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/inter_extrabold"
+            android:textSize="26sp"
+            android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
+            android:drawableTint="@color/md_theme_light_shadow"
+            app:layout_constraintEnd_toStartOf="@+id/card_options"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Meeting" />
+        <TextView
+            android:id="@+id/card_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"            android:layout_marginEnd="16dp"
+            android:layout_marginStart="15dp"
+            app:drawableTint="@color/md_theme_light_shadow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_title"
+            tools:text="Weekly plan Role distribution"
+            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24" />
+        <TextView
+            android:id="@+id/card_date_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="15dp"
+            app:drawableTint="@color/md_theme_light_shadow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_title"
+            tools:text="At 08:00 Jul 21 2022" />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/bt_register"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="67dp"
+        android:textAlignment="center"
+        android:text="DELETE REMINDER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.smithnoff.mytaskyapp.data.models.TaskyTask
 import com.smithnoff.mytaskyapp.data.remote.AuthInterceptor
-import com.smithnoff.mytaskyapp.data.remote.TaskyApi
+import com.smithnoff.mytaskyapp.data.remote.TaskyAgendaApi
+import com.smithnoff.mytaskyapp.data.remote.TaskyAuthApi
+import com.smithnoff.mytaskyapp.data.remote.TaskyTaskApi
 import com.smithnoff.mytaskyapp.domain.validators.UserValidator
 import com.smithnoff.mytaskyapp.utils.Constants.BASE_URL
 import dagger.Module
@@ -38,8 +41,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTaskyApi(retrofit: Retrofit): TaskyApi =
-        retrofit.create(TaskyApi::class.java)
+    fun provideTaskyAuthApi(retrofit: Retrofit): TaskyAuthApi =
+        retrofit.create(TaskyAuthApi::class.java)
 
     @Provides
     @Singleton
@@ -57,4 +60,14 @@ object AppModule {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideTaskyAgendaApi(retrofit: Retrofit): TaskyAgendaApi =
+        retrofit.create(TaskyAgendaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTaskyTaskApi(retrofit: Retrofit): TaskyTaskApi =
+        retrofit.create(TaskyTaskApi::class.java)
 }

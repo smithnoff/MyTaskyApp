@@ -29,12 +29,46 @@
         android:id="@+id/agendaHomeFragment"
         android:name="com.smithnoff.mytaskyapp.ui.home.AgendaHomeFragment"
         android:label="fragment_agenda_home"
-        tools:layout="@layout/fragment_agenda_home" />
+        tools:layout="@layout/fragment_agenda_home" >
+        <action
+            android:id="@+id/action_agendaHomeFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/action_agendaHomeFragment_to_reminderDetailFragment"
+            app:destination="@id/reminderDetailFragment" />
+        <action
+            android:id="@+id/action_agendaHomeFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment" />
+    </fragment>
 
     <action
         app:popUpToInclusive="true"
         app:popUpTo="@id/loginFragment"
         app:destination="@id/loginFragment"
         android:id="@+id/exit_to_login"/>
+    <fragment
+        tools:layout="@layout/fragment_event_detail"
+        android:id="@+id/eventDetailFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.event_detail.EventDetailFragment"
+        android:label="EventDetailFragment" />
+    <fragment
+        tools:layout="@layout/fragment_task_detail"
+        android:id="@+id/taskDetailFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.task_detail.TaskDetailFragment"
+        android:label="TaskDetailFragment" >
+        <action
+            android:id="@+id/action_taskDetailFragment_to_taskEditInfoFragment"
+            app:destination="@id/taskEditInfoFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_reminder_detail"
+        android:id="@+id/reminderDetailFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.reminder_detail.ReminderDetailFragment"
+        android:label="ReminderDetailFragment" />
+    <fragment
+        tools:layout="@layout/fragment_edit_info"
+        android:id="@+id/taskEditInfoFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.task_detail.TaskEditInfoFragment"
+        android:label="TaskEditInfoFragment" />
 
 </navigation>

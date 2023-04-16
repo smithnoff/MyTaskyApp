@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/card_dest_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:drawableTint="@color/md_theme_light_shadow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        tools:text="At" />
+    <TextView
+        android:id="@+id/card_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="39dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        app:drawableTint="@color/md_theme_light_shadow"
+        app:layout_constraintStart_toEndOf="@id/card_dest_title"
+        app:layout_constraintTop_toTopOf="@id/card_dest_title"
+        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24"
+        tools:text="08:00" />
+    <TextView
+        android:id="@+id/card_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24"
+        app:drawableTint="@color/md_theme_light_shadow"
+        app:layout_constraintTop_toTopOf="@id/card_dest_title"
+        app:layout_constraintStart_toEndOf="@id/card_hour"
+        tools:text="Jul 21 2022" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

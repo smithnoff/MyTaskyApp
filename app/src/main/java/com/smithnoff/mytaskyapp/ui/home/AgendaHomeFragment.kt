@@ -10,8 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.smithnoff.mytaskyapp.R
+import com.smithnoff.mytaskyapp.data.models.*
 import com.smithnoff.mytaskyapp.databinding.FragmentAgendaHomeBinding
+import com.smithnoff.mytaskyapp.ui.home.adapter.AgendaItemsAdapter
 import com.smithnoff.mytaskyapp.ui.home.adapter.DaysWeekAdapter
+import com.smithnoff.mytaskyapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -20,7 +23,7 @@ import com.smithnoff.mytaskyapp.utils.SessionManagerUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
+class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     private val currentDate = Calendar.getInstance(Locale.ENGLISH)
     private val selectedDate = Calendar.getInstance(Locale.ENGLISH)
@@ -33,6 +36,7 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
     private var _binding: FragmentAgendaHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var daysAdapter: DaysWeekAdapter
+    private lateinit var agendaItemsAdapter: AgendaItemsAdapter
     private val format = SimpleDateFormat("dd MMMM yyyy", Locale.US)
     private val months: Array<String> = DateFormatSymbols(Locale.US).months
     private val weekDays: Array<String> = DateFormatSymbols(Locale.US).weekdays
@@ -52,14 +56,39 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
         setUserMenuInfo()
         setCurrentDate()
         initMonthSelector()
+        initObservables()
+        binding.btAdd.setOnClickListener { addAgendaItem() }
+    }
+
+    private fun initObservables() {
+        viewModel.agendaItemList.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Error -> {
+                    println(it.message)
+                }
+                is Resource.Success -> {
+                    val agendaItems = mutableListOf<TaskyAgendaItem>()
+                    agendaItems.addAll(it.data?.tasks!!)
+                    agendaItems.addAll(it.data.events)
+                    agendaItems.addAll(it.data.reminders)
+                    agendaItemsAdapter.setItems(agendaItems)
+                    println(it.data.toString())
+                }
+            }
+        }
     }
 
     private fun setCurrentDate() {
         binding.rvCalendarDays.layoutManager =
             LinearLayoutManager(requireContext(), HORIZONTAL, false)
+        binding.rvCalendarTask.layoutManager =
+            LinearLayoutManager(requireContext())
         daysAdapter = DaysWeekAdapter(::selectMonthDay)
+        agendaItemsAdapter = AgendaItemsAdapter()
         binding.rvCalendarDays.adapter = daysAdapter
+        binding.rvCalendarTask.adapter = agendaItemsAdapter
         updateDaysAdapter(currentMonth)
+        viewModel.getAgendaItems(TimeZone.getDefault().id,currentDate.timeInMillis)
     }
 
     private fun initMonthSelector() {
@@ -74,6 +103,8 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
         selectedDate.set(selectedYear, selectedMonth, day)
         setFullDateText()
         updateDaysAdapter(currentMonth)
+        viewModel.getAgendaItems(timeZone = TimeZone.getDefault().id, selectedDate.timeInMillis)
+        binding.rvCalendarDays.smoothScrollToPosition(day - 1)
     }
 
     private fun getDayName(day: Int, month: Int, year: Int): String {
@@ -107,7 +138,8 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
                 if (currentDate.time != selectedDate.time) {
                     updateDaysAdapter(monthOfYear)
                 }
-                binding.rvCalendarDays.smoothScrollToPosition(dayOfMonth - 1)
+                binding.rvCalendarDays.smoothScrollToPosition(if (dayOfMonth <= 7 ) 0 else dayOfMonth)
+                selectMonthDay(selectedDay)
                 setFullDateText()
             },
             year,
@@ -132,6 +164,8 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
             else
                 format.format(selectedDate.time)
         binding.monthSelector.text = months[selectedMonth]
+        binding.rvCalendarDays.smoothScrollToPosition(selectedDay )
+
     }
 
     private fun setUserMenuInfo() {
@@ -144,12 +178,31 @@ class AgendaHomeFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
             }
         }
     }
+    private fun addAgendaItem() {
+        binding.btAdd.setOnClickListener {
+            PopupMenu(requireContext(), it).apply {
+                setOnMenuItemClickListener(this@AgendaHomeFragment)
+                inflate(R.menu.menu_add_item)
+                show()
+            }
+        }
+    }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.logout_user -> {
                 sessionManager.logoutUser()
                 findNavController().navigate(R.id.exit_to_login)
+            }
+            R.id.add_event -> {
+                findNavController().navigate(R.id.action_agendaHomeFragment_to_eventDetailFragment)
+            }
+            R.id.add_task -> {
+                findNavController().navigate(R.id.action_agendaHomeFragment_to_taskDetailFragment)
+
+            }
+            R.id.add_reminder -> {
+                findNavController().navigate(R.id.action_agendaHomeFragment_to_reminderDetailFragment)
             }
         }
         return true
