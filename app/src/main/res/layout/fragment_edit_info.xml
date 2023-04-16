@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
+        app:tint="?android:colorBackground"
         android:src="@drawable/baseline_keyboard_arrow_right_24"
         android:rotation="180"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +24,7 @@
         android:fontFamily="@font/inter"
         android:text="Edit Title"
         android:textAlignment="center"
-        android:textColor="?android:colorPrimaryDark"
+        android:textColor="?android:colorBackground"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/bt_save"
@@ -59,13 +60,15 @@
         app:layout_constraintTop_toBottomOf="@+id/bt_close">
 
         <EditText
-            android:textColor="@color/md_theme_light_onSecondary"
             android:id="@+id/field_info"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="36dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Write here"
+            android:textColorHint="?android:colorBackground"
+            android:textColor="?android:colorBackground"
             android:background="@android:color/transparent"
             android:text="text to edit"/>
     </LinearLayout>

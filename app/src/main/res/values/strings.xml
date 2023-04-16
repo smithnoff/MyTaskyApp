@@ -15,6 +15,7 @@
     <string name="txt_task">Task</string>
     <string name="txt_reminder">Reminder</string>
     <string name="txt_edit_task">Edit Task</string>
+    <string name="txt_edit_reminder">Edit Reminder</string>
     <string name="txt_save">Save</string>
     <string name="txt_at">At</string>
     <string name="txt_10_minutes_before">10 minutes before</string>
@@ -22,4 +23,7 @@
     <string name="txt_1_hour_before">1 hour before</string>
     <string name="txt_6_hours_before">6 hours before</string>
     <string name="txt_1_day_before">1 day before</string>
+    <string name="txt_open">Open</string>
+    <string name="txt_edit">Edit</string>
+    <string name="txt_delete">Delete</string>
 </resources>

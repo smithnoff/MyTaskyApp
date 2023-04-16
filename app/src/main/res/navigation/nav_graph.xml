@@ -64,11 +64,20 @@
         tools:layout="@layout/fragment_reminder_detail"
         android:id="@+id/reminderDetailFragment"
         android:name="com.smithnoff.mytaskyapp.ui.reminder_detail.ReminderDetailFragment"
-        android:label="ReminderDetailFragment" />
+        android:label="ReminderDetailFragment" >
+        <action
+            android:id="@+id/action_reminderDetailFragment_to_reminderEditInfoFragment"
+            app:destination="@id/reminderEditInfoFragment" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_edit_info"
         android:id="@+id/taskEditInfoFragment"
         android:name="com.smithnoff.mytaskyapp.ui.task_detail.TaskEditInfoFragment"
         android:label="TaskEditInfoFragment" />
+    <fragment
+        tools:layout="@layout/fragment_edit_info"
+        android:id="@+id/reminderEditInfoFragment"
+        android:name="com.smithnoff.mytaskyapp.ui.reminder_detail.ReminderEditInfoFragment"
+        android:label="ReminderEditInfoFragment" />
 
 </navigation>

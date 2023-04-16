@@ -57,7 +57,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         setCurrentDate()
         initMonthSelector()
         initObservables()
-        binding.btAdd.setOnClickListener { addAgendaItem() }
+        addAgendaItem()
     }
 
     private fun initObservables() {
@@ -84,7 +84,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding.rvCalendarTask.layoutManager =
             LinearLayoutManager(requireContext())
         daysAdapter = DaysWeekAdapter(::selectMonthDay)
-        agendaItemsAdapter = AgendaItemsAdapter()
+        agendaItemsAdapter = AgendaItemsAdapter(::showItemCardOptions)
         binding.rvCalendarDays.adapter = daysAdapter
         binding.rvCalendarTask.adapter = agendaItemsAdapter
         updateDaysAdapter(currentMonth)
@@ -185,6 +185,14 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 inflate(R.menu.menu_add_item)
                 show()
             }
+        }
+    }
+
+    private fun showItemCardOptions(view: View){
+        PopupMenu(requireContext(), view).apply {
+            setOnMenuItemClickListener(this@AgendaHomeFragment)
+            inflate(R.menu.menu_card_options)
+            show()
         }
     }
 

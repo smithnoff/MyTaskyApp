@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
+        app:tint="?android:colorBackground"
         android:src="@drawable/baseline_close_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,24 +22,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter"
-        android:text="Edit Reminder"
+        android:text="@string/txt_edit_reminder"
         android:textAlignment="center"
         android:textColor="?android:colorBackground"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/user_dropdown"
+        app:layout_constraintEnd_toStartOf="@+id/bt_save_task"
         app:layout_constraintHorizontal_bias="0.443"
         app:layout_constraintStart_toEndOf="@+id/bt_close"
         app:layout_constraintTop_toTopOf="@+id/bt_close" />
 
     <TextView
-        android:id="@+id/user_dropdown"
+        android:id="@+id/bt_save_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/inter_extrabold"
-        android:text="Save"
+        android:text="@string/txt_save"
         android:textColor="?android:colorBackground"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/bt_close"
@@ -53,54 +54,77 @@
         android:background="@drawable/bottom_dialog_shape"
         android:orientation="vertical"
         android:showDividers="middle|end"
+        android:paddingHorizontal="16dp"
         android:divider="@drawable/layout_divider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_close">
 
-        <RadioButton
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/card_options"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/txt_reminder"
+            app:drawableStartCompat="@drawable/baseline_square_24"
+            app:drawableTint="@color/md_theme_light_inverseOnSurface" />
+
+
+        <CheckBox
+            style="@android:style/Widget.CompoundButton.RadioButton"
+            android:clickable="false"
             android:id="@+id/card_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/inter_extrabold"
             android:textSize="26sp"
-            android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
-            android:drawableTint="@color/md_theme_light_shadow"
+            android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24_black"
             app:layout_constraintEnd_toStartOf="@+id/card_options"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Meeting" />
         <TextView
+            android:minLines="2"
             android:id="@+id/card_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"            android:layout_marginEnd="16dp"
-            android:layout_marginStart="15dp"
-            app:drawableTint="@color/md_theme_light_shadow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_title"
-            tools:text="Weekly plan Role distribution"
-            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24" />
+            android:layout_marginBottom="20dp"
+            tools:text="Weekly plan \nRole distribution"
+            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24_black" />
+
+        <include
+            android:id="@+id/full_date_section"
+            layout="@layout/section_hour_date"
+            android:layout_marginVertical="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <TextView
-            android:id="@+id/card_date_info"
+            android:id="@+id/bt_reminder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="15dp"
-            app:drawableTint="@color/md_theme_light_shadow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_title"
-            tools:text="At 08:00 Jul 21 2022" />
+            android:textSize="16sp"
+            android:fontFamily="@font/inter"
+            android:drawablePadding="13dp"
+            android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/appointment"
+            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24_black" />
 
     </LinearLayout>
     <TextView

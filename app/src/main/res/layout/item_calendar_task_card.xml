@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@color/seed">
 
-        <RadioButton
+        <CheckBox
+            style="@android:style/Widget.CompoundButton.RadioButton"
             android:textColor="@color/md_theme_light_onSecondary"
             android:id="@+id/card_title"
             android:layout_width="wrap_content"
