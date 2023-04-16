@@ -1,6 +1,8 @@
 package com.smithnoff.mytaskyapp.utils
 
 import android.content.Context
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun ReminderOptions.getTitle(context: Context):String{
     return when(this){
@@ -20,4 +22,12 @@ fun ReminderOptions.getMillis():Long{
         ReminderOptions.SixHour ->ReminderOptions.SixHour.time
         ReminderOptions.TenMinutes ->ReminderOptions.TenMinutes.time
     }
+}
+
+fun getCardDateHour(date:Long):String{
+    val formatter = SimpleDateFormat("MMM dd, HH:mm", Locale.ENGLISH)
+
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = date
+    return formatter.format(calendar.time)
 }

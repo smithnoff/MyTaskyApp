@@ -13,6 +13,7 @@
         android:background="@color/seed">
 
         <RadioButton
+            android:textColor="@color/md_theme_light_onSecondary"
             android:id="@+id/card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:textColor="@color/md_theme_light_onSecondary"
             android:id="@+id/card_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,9 +51,11 @@
             app:layout_constraintTop_toBottomOf="@id/card_title"
             tools:text="Just work" />
         <TextView
+            android:id="@+id/card_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Mar 5, 10:00"
+            android:textColor="@color/md_theme_light_onSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_description"
             app:layout_constraintEnd_toEndOf="parent"

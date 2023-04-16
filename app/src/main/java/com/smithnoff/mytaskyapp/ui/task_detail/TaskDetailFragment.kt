@@ -8,16 +8,19 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.smithnoff.mytaskyapp.R
+import com.smithnoff.mytaskyapp.data.models.TaskyTask
 import com.smithnoff.mytaskyapp.databinding.FragmentTaskDetailBinding
-import com.smithnoff.mytaskyapp.utils.ReminderOptions
-import com.smithnoff.mytaskyapp.utils.getTitle
+import com.smithnoff.mytaskyapp.domain.validators.TaskValidator
+import com.smithnoff.mytaskyapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -28,7 +31,9 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private val calendar = Calendar.getInstance(Locale.ENGLISH)
     private val format = SimpleDateFormat("MMM dd yyyy", Locale.US)
     private val viewModel: TaskDetailViewModel by activityViewModels()
-
+    private lateinit var reminderOptionSelected : ReminderOptions
+    @Inject
+    lateinit var validator: TaskValidator
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +57,16 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
             taskDescription.observe(viewLifecycleOwner) {
                 binding.cardDescription.text = it
+            }
+
+            createdTaskResult.observe(viewLifecycleOwner){
+                when(it){
+                    is Resource.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    is Resource.Success -> {
+                        Toast.makeText(requireContext(), "Task created successfully", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    }
+                }
             }
         }
     }
@@ -83,6 +98,22 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
 
             setReminderOptions()
+            btSaveTask.setOnClickListener {
+                val createdTask = TaskyTask(
+                    id = UUID.randomUUID().toString(),
+                    title = cardTitle.text.toString().trim(),
+                    description = cardDescription.text.toString().trim(),
+                    time = calendar.timeInMillis,
+                    remindAt = calendar.timeInMillis - reminderOptionSelected.getMillis(),
+                    isDone = false
+                )
+                val validationResult = validator.createValidTask(createdTask)
+                if (validationResult is ValidationResult.Failure) {
+                    Toast.makeText(requireContext(), validationResult.errorMessage, Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.createNewTask(createdTask)
+                }
+            }
         }
     }
 
@@ -123,6 +154,7 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun setReminderOptions() {
+        reminderOptionSelected = ReminderOptions.TenMinutes
         binding.btReminder.text = ReminderOptions.TenMinutes.getTitle(requireContext())
         binding.btReminder.setOnClickListener {
             PopupMenu(requireContext(), it).apply {
@@ -138,18 +170,23 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding.btReminder.text = when (item?.itemId) {
 
             R.id.option_half_hour -> {
+                reminderOptionSelected = ReminderOptions.HalfHour
                 item.title
             }
             R.id.option_one_hour -> {
+                reminderOptionSelected = ReminderOptions.OneHour
                 item.title
             }
             R.id.option_six_hour -> {
+                reminderOptionSelected = ReminderOptions.SixHour
                 item.title
             }
             R.id.option_24_hour -> {
+                reminderOptionSelected = ReminderOptions.OneDay
                 item.title
             }
             else -> {
+                reminderOptionSelected = ReminderOptions.TenMinutes
                 item?.title
             }
         }
