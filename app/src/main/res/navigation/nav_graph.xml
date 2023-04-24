@@ -39,6 +39,7 @@
         <action
             android:id="@+id/action_agendaHomeFragment_to_taskDetailFragment"
             app:destination="@id/taskDetailFragment" />
+
     </fragment>
 
     <action
@@ -59,6 +60,14 @@
         <action
             android:id="@+id/action_taskDetailFragment_to_taskEditInfoFragment"
             app:destination="@id/taskEditInfoFragment" />
+        <argument
+            android:name="agendaItem"
+            app:argType="com.smithnoff.mytaskyapp.data.models.TaskyTask"
+            />
+        <argument
+            android:name="optionSelected"
+            app:argType="integer"
+            />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_reminder_detail"

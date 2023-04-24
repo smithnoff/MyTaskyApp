@@ -84,11 +84,11 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding.rvCalendarTask.layoutManager =
             LinearLayoutManager(requireContext())
         daysAdapter = DaysWeekAdapter(::selectMonthDay)
-        agendaItemsAdapter = AgendaItemsAdapter(::showItemCardOptions)
+        agendaItemsAdapter = AgendaItemsAdapter(::onEditItemSelected)
         binding.rvCalendarDays.adapter = daysAdapter
         binding.rvCalendarTask.adapter = agendaItemsAdapter
         updateDaysAdapter(currentMonth)
-        viewModel.getAgendaItems(TimeZone.getDefault().id,currentDate.timeInMillis)
+        viewModel.getAgendaItems(TimeZone.getDefault().id, currentDate.timeInMillis)
     }
 
     private fun initMonthSelector() {
@@ -138,7 +138,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 if (currentDate.time != selectedDate.time) {
                     updateDaysAdapter(monthOfYear)
                 }
-                binding.rvCalendarDays.smoothScrollToPosition(if (dayOfMonth <= 7 ) 0 else dayOfMonth)
+                binding.rvCalendarDays.smoothScrollToPosition(if (dayOfMonth <= 7) 0 else dayOfMonth)
                 selectMonthDay(selectedDay)
                 setFullDateText()
             },
@@ -164,7 +164,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             else
                 format.format(selectedDate.time)
         binding.monthSelector.text = months[selectedMonth]
-        binding.rvCalendarDays.smoothScrollToPosition(selectedDay )
+        binding.rvCalendarDays.smoothScrollToPosition(selectedDay)
 
     }
 
@@ -178,6 +178,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
     }
+
     private fun addAgendaItem() {
         binding.btAdd.setOnClickListener {
             PopupMenu(requireContext(), it).apply {
@@ -188,7 +189,7 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         }
     }
 
-    private fun showItemCardOptions(view: View){
+    private fun showItemCardOptions(view: View) {
         PopupMenu(requireContext(), view).apply {
             setOnMenuItemClickListener(this@AgendaHomeFragment)
             inflate(R.menu.menu_card_options)
@@ -215,6 +216,33 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         }
         return true
     }
+
+    private fun onEditItemSelected(item: TaskyAgendaItem, option: Int) {
+        when (item) {
+            is TaskyTask -> {
+                onTaskMenuItemSelected(item, option)
+
+            }
+            is TaskyEvent -> {}
+            is TaskyReminder -> {}
+            else -> {}
+        }
+    }
+
+    private fun onTaskMenuItemSelected(taskyTask: TaskyTask, option: Int) {
+        when (option) {
+            AgendaItemMenu.OPEN.ordinal, AgendaItemMenu.EDIT.ordinal -> {
+                val agendaTaskAction =
+                    AgendaHomeFragmentDirections.actionAgendaHomeFragmentToTaskDetailFragment(
+                        taskyTask,
+                        option
+                    )
+                findNavController().navigate(agendaTaskAction)
+            }
+            AgendaItemMenu.DELETE.ordinal -> {}
+            else -> {}
+        }
+    }
 }
 
 
@@ -225,4 +253,8 @@ fun String.abbrevName(): String {
     } else {
         this.take(2).uppercase()
     }
+}
+
+enum class AgendaItemMenu {
+    OPEN, EDIT, DELETE
 }
