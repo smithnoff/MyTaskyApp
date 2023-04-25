@@ -62,11 +62,14 @@
             app:destination="@id/taskEditInfoFragment" />
         <argument
             android:name="agendaItem"
+            app:nullable="true"
             app:argType="com.smithnoff.mytaskyapp.data.models.TaskyTask"
+            android:defaultValue="@null"
             />
         <argument
             android:name="optionSelected"
             app:argType="integer"
+            android:defaultValue="-1"
             />
     </fragment>
     <fragment

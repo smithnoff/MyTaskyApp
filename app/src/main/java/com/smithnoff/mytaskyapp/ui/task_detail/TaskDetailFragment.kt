@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -35,19 +36,20 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private val calendar = Calendar.getInstance(Locale.ENGLISH)
     private val format = SimpleDateFormat("MMM dd yyyy", Locale.US)
     private val viewModel: TaskDetailViewModel by activityViewModels()
-    private lateinit var reminderOptionSelected : ReminderOptions
+    private lateinit var reminderOptionSelected: ReminderOptions
     private var selectedTask: TaskyTask? = null
     private var option: Int = 0
-   private val args: TaskDetailFragmentArgs by navArgs()
+    private val args: TaskDetailFragmentArgs by navArgs()
+
     @Inject
     lateinit var validator: TaskValidator
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         option = args.optionSelected
         selectedTask = args.agendaItem
         _binding = FragmentTaskDetailBinding.inflate(layoutInflater)
@@ -56,12 +58,30 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btClose.setOnClickListener { findNavController().navigateUp() }
-        if(option == AgendaItemMenu.OPEN.ordinal){
+        if (option == AgendaItemMenu.OPEN.ordinal) {
             initViewsOnReadMode()
-        }else{
+        } else {
             initViewsOnEditMode()
         }
+        setReminderOptions()
+        binding.btSaveTask.setOnClickListener {
+            if (option == AgendaItemMenu.OPEN.ordinal) {
+                configureEditButtons(true)
+                option = AgendaItemMenu.EDIT.ordinal
+            } else {
+                if(option == AgendaItemMenu.EDIT.ordinal) {
+                    configureEditButtons(false)
+                    saveTask()
+                }  else {
+                    deleteTask()
+                }
+            }
+        }
         initObservables()
+    }
+
+    private fun deleteTask() {
+
     }
 
     private fun initObservables() {
@@ -74,11 +94,19 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 binding.cardDescription.text = it
             }
 
-            createdTaskResult.observe(viewLifecycleOwner){
-                when(it){
-                    is Resource.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+            createdTaskResult.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Error -> Toast.makeText(
+                        requireContext(),
+                        it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                     is Resource.Success -> {
-                        Toast.makeText(requireContext(), "Task created successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Task created successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         findNavController().navigateUp()
                     }
                 }
@@ -90,8 +118,9 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         val format = SimpleDateFormat("dd MMMM yyyy", Locale.US)
         calendar.timeInMillis = selectedTask?.time ?: Date().time
 
-        with(binding){
-            editScreenTitle.text = format.format( Date(selectedTask?.time?:Calendar.getInstance().timeInMillis))
+        with(binding) {
+            editScreenTitle.text =
+                format.format(Date(selectedTask?.time ?: Calendar.getInstance().timeInMillis))
             setHourLabels()
         }
         configureEditButtons(false)
@@ -100,7 +129,7 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     private fun initViewsOnEditMode() {
         with(binding) {
-        setHourLabels()
+            setHourLabels()
             cardTitle.setOnClickListener {
                 goToEditInfo(Bundle().apply
                 {
@@ -119,36 +148,41 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             fullDateSection.cardDate.setOnClickListener {
                 showDateDialogPicker()
             }
-
-            setReminderOptions()
-            btSaveTask.setOnClickListener {
-                val createdTask = TaskyTask(
-                    id = UUID.randomUUID().toString(),
-                    title = cardTitle.text.toString().trim(),
-                    description = cardDescription.text.toString().trim(),
-                    time = calendar.timeInMillis,
-                    remindAt = calendar.timeInMillis - reminderOptionSelected.getMillis(),
-                    isDone = false
-                )
-                val validationResult = validator.createValidTask(createdTask)
-                if (validationResult is ValidationResult.Failure) {
-                    Toast.makeText(requireContext(), validationResult.errorMessage, Toast.LENGTH_SHORT).show()
-                } else {
-                    viewModel.createNewTask(createdTask)
-                }
-            }
+            configureEditButtons(true)
         }
     }
 
-    private fun setHourLabels(){
-        with(binding){
+    private fun saveTask() {
+        val myTask = TaskyTask(
+            id = selectedTask?.id?:UUID.randomUUID().toString(),
+            title = binding.cardTitle.text.toString().trim(),
+            description = binding.cardDescription.text.toString().trim(),
+            time = calendar.timeInMillis,
+            remindAt = calendar.timeInMillis - reminderOptionSelected.getMillis(),
+            isDone = selectedTask?.isDone?:false
+        )
+        val validationResult = validator.createValidTask(myTask)
+        if (validationResult is ValidationResult.Failure) {
+            Toast.makeText(requireContext(), validationResult.errorMessage, Toast.LENGTH_SHORT)
+                .show()
+        } else {
+            if(selectedTask == null)
+            viewModel.createNewTask(myTask)
+            else
+                viewModel.updateTask(myTask)
+        }
+    }
+
+    private fun setHourLabels() {
+        with(binding) {
             cardTitle.text = selectedTask?.title
             cardDescription.text = selectedTask?.description
             fullDateSection.cardDestTitle.text = getString(R.string.txt_at)
-            fullDateSection.cardDate.text= format.format(calendar.time)
+            fullDateSection.cardDate.text = format.format(calendar.time)
             val hours = calendar.get(Calendar.HOUR_OF_DAY)
             val minutes = calendar.get(Calendar.MINUTE)
-            fullDateSection.cardHour.text = "${String.format("%02d", hours)}:${String.format("%02d", minutes)}"
+            fullDateSection.cardHour.text =
+                "${String.format("%02d", hours)}:${String.format("%02d", minutes)}"
         }
     }
 
@@ -157,24 +191,27 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val dpd = DatePickerDialog(requireContext(),{ _, selectedYear, selectedMonth, selectedDay ->
-             calendar.set(Calendar.YEAR,selectedYear)
-             calendar.set(Calendar.MONTH,selectedMonth)
-             calendar.set(Calendar.DAY_OF_MONTH,selectedDay)
-            binding.fullDateSection.cardDate.text =format.format(calendar.time)
+        val dpd =
+            DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+                calendar.set(Calendar.YEAR, selectedYear)
+                calendar.set(Calendar.MONTH, selectedMonth)
+                calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
+                binding.fullDateSection.cardDate.text = format.format(calendar.time)
 
-        }, year, month, day)
+            }, year, month, day)
 
         dpd.show()
     }
 
     private fun showTimeDialogPicker() {
 
-       val mHour = calendar[Calendar.HOUR_OF_DAY]
+        val mHour = calendar[Calendar.HOUR_OF_DAY]
         val mMinute = calendar[Calendar.MINUTE]
-        val timePickerDialog = TimePickerDialog(requireContext(),
-             { _, hourOfDay, minute ->
-                binding.fullDateSection.cardHour.text = "${String.format("%02d",hourOfDay)}:${String.format("%02d",minute)}"
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            { _, hourOfDay, minute ->
+                binding.fullDateSection.cardHour.text =
+                    "${String.format("%02d", hourOfDay)}:${String.format("%02d", minute)}"
             },
             mHour,
             mMinute,
@@ -188,7 +225,7 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun setReminderOptions() {
-        reminderOptionSelected = ReminderOptions.TenMinutes
+        reminderOptionSelected = selectedTask?.let {  getReminderTime(it.time,it.remindAt)}?: ReminderOptions.TenMinutes
         binding.btReminder.text = ReminderOptions.TenMinutes.getTitle(requireContext())
         binding.btReminder.setOnClickListener {
             PopupMenu(requireContext(), it).apply {
@@ -199,17 +236,50 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         }
     }
 
-    private fun configureEditButtons(enabled:Boolean){
-        with(binding){
+    private fun configureEditButtons(enabled: Boolean) {
+        with(binding) {
 
-                cardTitle.setCompoundDrawablesWithIntrinsicBounds(0,0,if(enabled)R.drawable.baseline_keyboard_arrow_right_24_black else 0,0)
-                cardDescription.setCompoundDrawablesWithIntrinsicBounds(0,0,if(enabled)R.drawable.baseline_keyboard_arrow_right_24_black else 0,0)
-                fullDateSection.cardDate.setCompoundDrawablesWithIntrinsicBounds(0,0,if(enabled)R.drawable.baseline_keyboard_arrow_right_24_black else 0,0)
-                fullDateSection.cardHour.setCompoundDrawablesWithIntrinsicBounds(0,0,if(enabled)R.drawable.baseline_keyboard_arrow_right_24_black else 0,0)
-                cardTitle.isEnabled = enabled
-                cardDescription.isEnabled = enabled
-                fullDateSection.cardDate.isEnabled = enabled
-                fullDateSection.cardHour.isEnabled= enabled
+            cardTitle.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                if (enabled) R.drawable.baseline_keyboard_arrow_right_24_black else 0,
+                0
+            )
+            cardDescription.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                if (enabled) R.drawable.baseline_keyboard_arrow_right_24_black else 0,
+                0
+            )
+            fullDateSection.cardDate.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                if (enabled) R.drawable.baseline_keyboard_arrow_right_24_black else 0,
+                0
+            )
+            fullDateSection.cardHour.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                if (enabled) R.drawable.baseline_keyboard_arrow_right_24_black else 0,
+                0
+            )
+            btSaveTask.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                if (!enabled) R.drawable.baseline_mode_edit_24 else 0,
+                0
+            )
+            cardTitle.isEnabled = enabled
+            cardDescription.isEnabled = enabled
+            fullDateSection.cardDate.isEnabled = enabled
+            fullDateSection.cardHour.isEnabled = enabled
+            btDelete.isVisible = enabled
+            if (!enabled) {
+                btSaveTask.text = ""
+            } else {
+                btSaveTask.text = getString(R.string.txt_save)
+
+            }
         }
     }
 

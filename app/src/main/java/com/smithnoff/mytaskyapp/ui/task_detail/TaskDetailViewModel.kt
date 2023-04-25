@@ -43,4 +43,8 @@ class TaskDetailViewModel @Inject constructor(private val tasksRepository: Tasks
     fun getTitleDescription(): String {
      return _taskDescription.value?:""
     }
+
+    fun updateTask(editedTask: TaskyTask) {
+        TODO("Not yet implemented")
+    }
 }

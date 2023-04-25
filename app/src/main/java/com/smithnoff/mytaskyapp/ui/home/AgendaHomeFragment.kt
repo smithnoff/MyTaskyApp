@@ -221,7 +221,6 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         when (item) {
             is TaskyTask -> {
                 onTaskMenuItemSelected(item, option)
-
             }
             is TaskyEvent -> {}
             is TaskyReminder -> {}
