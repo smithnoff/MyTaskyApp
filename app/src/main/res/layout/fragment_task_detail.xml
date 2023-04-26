@@ -44,7 +44,8 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/bt_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:drawableTint="?android:colorBackground" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -127,12 +128,12 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/bt_register"
+        android:id="@+id/bt_delete"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingBottom="67dp"
         android:textAlignment="center"
-        android:text="DELETE TASK"
+        android:text="@string/txt_delete_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

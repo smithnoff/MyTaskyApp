@@ -17,7 +17,9 @@ import com.smithnoff.mytaskyapp.ui.home.adapter.viewholder.ReminderViewHolder
 import com.smithnoff.mytaskyapp.ui.home.adapter.viewholder.TaskViewHolder
 
 
-class AgendaItemsAdapter(private val menuListener: (View) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AgendaItemsAdapter constructor(
+    private val menuListener: (TaskyAgendaItem, Int) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var taskList = mutableListOf<TaskyAgendaItem>()
 
