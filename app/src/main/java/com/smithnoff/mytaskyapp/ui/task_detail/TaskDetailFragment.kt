@@ -52,32 +52,41 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     ): View {
         option = args.optionSelected
         selectedTask = args.agendaItem
+        if (viewModel.getScreenMode() == null)
+            viewModel.setScreenMode(option)
+        else
+            option = viewModel.getScreenMode()!!
         _binding = FragmentTaskDetailBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.btClose.setOnClickListener { findNavController().navigateUp() }
+        initObservables()
+        binding.btClose.setOnClickListener {
+            viewModel.setScreenMode(null)
+            findNavController().navigateUp()
+        }
+
         if (option == AgendaItemMenu.OPEN.ordinal) {
             initViewsOnReadMode()
         } else {
-            initViewsOnEditMode()
-        }
-        setReminderOptions()
-        binding.btSaveTask.setOnClickListener {
             if (option == AgendaItemMenu.OPEN.ordinal) {
-                configureEditButtons(true)
-                option = AgendaItemMenu.EDIT.ordinal
+                initViewsOnEditMode()
             } else {
-                if(option == AgendaItemMenu.EDIT.ordinal) {
-                    configureEditButtons(false)
-                    saveTask()
-                }  else {
-                    deleteTask()
-                }
+                iniViewOnCreateMode()
             }
         }
-        initObservables()
+        setReminderOptions()
+    }
+
+    private fun iniViewOnCreateMode() {
+        binding.editScreenTitle.text = getString(R.string.txt_create_task)
+        configureEditButtons(true)
+        setHourLabels()
+        binding.btDelete.isVisible = false
+        binding.btSaveTask.setOnClickListener {
+            saveTask()
+        }
     }
 
     private fun deleteTask() {
@@ -111,6 +120,24 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     }
                 }
             }
+
+            editedTaskResult.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Error -> Toast.makeText(
+                        requireContext(),
+                        it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    is Resource.Success -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Task updated successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().navigateUp()
+                    }
+                }
+            }
         }
     }
 
@@ -122,52 +149,35 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             editScreenTitle.text =
                 format.format(Date(selectedTask?.time ?: Calendar.getInstance().timeInMillis))
             setHourLabels()
+            btSaveTask.setOnClickListener {
+                initViewsOnEditMode()
+            }
         }
         configureEditButtons(false)
     }
 
 
     private fun initViewsOnEditMode() {
-        with(binding) {
-            setHourLabels()
-            cardTitle.setOnClickListener {
-                goToEditInfo(Bundle().apply
-                {
-                    putString(EditedField::class.java.name, EditedField.TITLE.name)
-                })
-            }
-            cardDescription.setOnClickListener {
-                goToEditInfo(Bundle().apply
-                {
-                    putString(EditedField::class.java.name, EditedField.DESCRIPTION.name)
-                })
-            }
-            fullDateSection.cardHour.setOnClickListener {
-                showTimeDialogPicker()
-            }
-            fullDateSection.cardDate.setOnClickListener {
-                showDateDialogPicker()
-            }
-            configureEditButtons(true)
-        }
+        setHourLabels()
+        configureEditButtons(true)
     }
 
     private fun saveTask() {
         val myTask = TaskyTask(
-            id = selectedTask?.id?:UUID.randomUUID().toString(),
+            id = selectedTask?.id ?: UUID.randomUUID().toString(),
             title = binding.cardTitle.text.toString().trim(),
             description = binding.cardDescription.text.toString().trim(),
             time = calendar.timeInMillis,
             remindAt = calendar.timeInMillis - reminderOptionSelected.getMillis(),
-            isDone = selectedTask?.isDone?:false
+            isDone = selectedTask?.isDone ?: false
         )
         val validationResult = validator.createValidTask(myTask)
         if (validationResult is ValidationResult.Failure) {
             Toast.makeText(requireContext(), validationResult.errorMessage, Toast.LENGTH_SHORT)
                 .show()
         } else {
-            if(selectedTask == null)
-            viewModel.createNewTask(myTask)
+            if (selectedTask == null)
+                viewModel.createNewTask(myTask)
             else
                 viewModel.updateTask(myTask)
         }
@@ -225,7 +235,8 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun setReminderOptions() {
-        reminderOptionSelected = selectedTask?.let {  getReminderTime(it.time,it.remindAt)}?: ReminderOptions.TenMinutes
+        reminderOptionSelected = selectedTask?.let { getReminderTime(it.time, it.remindAt) }
+            ?: ReminderOptions.TenMinutes
         binding.btReminder.text = ReminderOptions.TenMinutes.getTitle(requireContext())
         binding.btReminder.setOnClickListener {
             PopupMenu(requireContext(), it).apply {
@@ -278,7 +289,24 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 btSaveTask.text = ""
             } else {
                 btSaveTask.text = getString(R.string.txt_save)
-
+                cardTitle.setOnClickListener {
+                    goToEditInfo(Bundle().apply
+                    {
+                        putString(EditedField::class.java.name, EditedField.TITLE.name)
+                    })
+                }
+                cardDescription.setOnClickListener {
+                    goToEditInfo(Bundle().apply
+                    {
+                        putString(EditedField::class.java.name, EditedField.DESCRIPTION.name)
+                    })
+                }
+                fullDateSection.cardHour.setOnClickListener {
+                    showTimeDialogPicker()
+                }
+                fullDateSection.cardDate.setOnClickListener {
+                    showDateDialogPicker()
+                }
             }
         }
     }

@@ -37,6 +37,7 @@
             android:id="@+id/action_agendaHomeFragment_to_reminderDetailFragment"
             app:destination="@id/reminderDetailFragment" />
         <action
+            app:popUpToInclusive="true"
             android:id="@+id/action_agendaHomeFragment_to_taskDetailFragment"
             app:destination="@id/taskDetailFragment" />
 

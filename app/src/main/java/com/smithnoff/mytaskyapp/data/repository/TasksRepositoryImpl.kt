@@ -12,4 +12,8 @@ class TasksRepositoryImpl @Inject constructor(private val api: TaskyTaskApi) : T
     override suspend fun createTask(taskTask: TaskyTask): Resource<Unit> {
         return safeApiCall { api.createTask(taskTask) }
     }
+
+    override suspend fun updateTask(taskTask: TaskyTask): Resource<Unit> {
+        return safeApiCall { api.updateTask(taskTask) }
+    }
 }

@@ -1,5 +1,6 @@
 package com.smithnoff.mytaskyapp.ui.task_detail
 
+import android.text.BoringLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,11 +17,16 @@ class TaskDetailViewModel @Inject constructor(private val tasksRepository: Tasks
     ViewModel() {
     private val _createdTaskResult = MutableLiveData<Resource<Unit>>()
     val createdTaskResult: LiveData<Resource<Unit>> = _createdTaskResult
+    private val _editedTaskResult = MutableLiveData<Resource<Unit>>()
+    val editedTaskResult: LiveData<Resource<Unit>> = _editedTaskResult
 
     private var _taskTitle = MutableLiveData<String>()
     val taskTitle : LiveData<String> = _taskTitle
     private var _taskDescription = MutableLiveData<String>()
     val taskDescription : LiveData<String> = _taskDescription
+
+    private var _screenMode = MutableLiveData<Int?>()
+
     fun createNewTask(createdTask: TaskyTask) {
         viewModelScope.launch {
             val response = tasksRepository.createTask(createdTask)
@@ -45,6 +51,14 @@ class TaskDetailViewModel @Inject constructor(private val tasksRepository: Tasks
     }
 
     fun updateTask(editedTask: TaskyTask) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            val response = tasksRepository.createTask(editedTask)
+            _editedTaskResult.postValue(response)
+        }
     }
+
+    fun setScreenMode(screenMode:Int?) {
+        _screenMode.value = screenMode
+    }
+    fun getScreenMode() = _screenMode.value
 }
