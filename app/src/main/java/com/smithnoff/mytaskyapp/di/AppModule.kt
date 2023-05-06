@@ -47,7 +47,7 @@ object AppModule {
         context = context,
         klass = TaskyAgendaDatabase::class.java,
         name = DATABASE_NAME
-    ).build()
+    ).allowMainThreadQueries().build()
     @Provides
     @Singleton
     fun provideTaskDao(db:TaskyAgendaDatabase): TaskyTaskDao = db.taskDao()
