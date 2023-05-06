@@ -1,10 +1,10 @@
 package com.smithnoff.mytaskyapp.ui.task_detail
 
-import android.text.BoringLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.smithnoff.mytaskyapp.data.mappers.toDomain
 import com.smithnoff.mytaskyapp.data.models.TaskyTask
 import com.smithnoff.mytaskyapp.data.repository.TasksRepositoryImpl
 import com.smithnoff.mytaskyapp.utils.Resource
@@ -29,8 +29,8 @@ class TaskDetailViewModel @Inject constructor(private val tasksRepository: Tasks
 
     fun createNewTask(createdTask: TaskyTask) {
         viewModelScope.launch {
-            val response = tasksRepository.createTask(createdTask)
-            _createdTaskResult.postValue(response)
+            tasksRepository.createLocalTask(createdTask.toDomain())
+            _createdTaskResult.postValue(Resource.Success(Unit))
         }
     }
 

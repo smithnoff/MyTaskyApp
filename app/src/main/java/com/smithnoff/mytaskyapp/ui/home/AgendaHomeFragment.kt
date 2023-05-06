@@ -88,7 +88,8 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding.rvCalendarDays.adapter = daysAdapter
         binding.rvCalendarTask.adapter = agendaItemsAdapter
         updateDaysAdapter(currentMonth)
-        viewModel.getAgendaItems(TimeZone.getDefault().id, currentDate.timeInMillis)
+        //viewModel.getAgendaItems(TimeZone.getDefault().id, currentDate.timeInMillis)
+        viewModel.getAgendaItemsFromLocal(currentDate.timeInMillis)
     }
 
     private fun initMonthSelector() {
@@ -103,7 +104,8 @@ class AgendaHomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         selectedDate.set(selectedYear, selectedMonth, day)
         setFullDateText()
         updateDaysAdapter(currentMonth)
-        viewModel.getAgendaItems(timeZone = TimeZone.getDefault().id, selectedDate.timeInMillis)
+        //viewModel.getAgendaItems(timeZone = TimeZone.getDefault().id, selectedDate.timeInMillis)
+        viewModel.getAgendaItemsFromLocal(selectedDate.timeInMillis)
         binding.rvCalendarDays.smoothScrollToPosition(day - 1)
     }
 

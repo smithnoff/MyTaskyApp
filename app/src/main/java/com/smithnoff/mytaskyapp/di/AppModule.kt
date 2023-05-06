@@ -2,8 +2,13 @@ package com.smithnoff.mytaskyapp.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.smithnoff.mytaskyapp.data.local.TaskyAgendaDatabase
+import com.smithnoff.mytaskyapp.data.local.dao.TaskyTaskDao
+import com.smithnoff.mytaskyapp.data.local.entities.TaskyTaskEntity
 import com.smithnoff.mytaskyapp.data.models.TaskyTask
 import com.smithnoff.mytaskyapp.data.remote.*
 import com.smithnoff.mytaskyapp.domain.validators.UserValidator
@@ -22,6 +27,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    private const val DATABASE_NAME ="tasky_database"
     @Provides
     @Singleton
     fun provideTaskyClient(authInterceptor: AuthInterceptor): OkHttpClient =
@@ -35,6 +41,16 @@ object AppModule {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    @Singleton
+    @Provides
+    fun provideRoom(@ApplicationContext context: Context):TaskyAgendaDatabase = Room.databaseBuilder(
+        context = context,
+        klass = TaskyAgendaDatabase::class.java,
+        name = DATABASE_NAME
+    ).allowMainThreadQueries().build()
+    @Provides
+    @Singleton
+    fun provideTaskDao(db:TaskyAgendaDatabase): TaskyTaskDao = db.taskDao()
 
     @Provides
     @Singleton
