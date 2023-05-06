@@ -69,8 +69,8 @@ class TaskDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
         if (option == AgendaItemMenu.OPEN.ordinal) {
             initViewsOnReadMode()
-        } else {
-            if (option == AgendaItemMenu.OPEN.ordinal) {
+        }else {
+            if (option == AgendaItemMenu.EDIT.ordinal) {
                 initViewsOnEditMode()
             } else {
                 iniViewOnCreateMode()
