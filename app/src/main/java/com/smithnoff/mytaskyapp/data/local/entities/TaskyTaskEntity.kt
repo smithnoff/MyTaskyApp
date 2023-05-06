@@ -18,7 +18,9 @@ data class TaskyTaskEntity(
     @ColumnInfo("time")
     val time: Long,
     @ColumnInfo("isDone")
-    val isDone: Boolean
+    val isDone: Boolean,
+    @ColumnInfo("date")
+    val date: String
 ) : TaskyAgendaEntity()
 
 
